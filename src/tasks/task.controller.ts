@@ -1,19 +1,27 @@
-import { Controller, Delete, Get, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post, Put, Query } from "@nestjs/common";
 import { TasksService } from "./tasks.service";
 
-@Controller({})
+@Controller('/tasks')
 export class TaskController{
 
     constructor(private tasksService: TasksService){}
 
-    @Get('/task')
-    getAllTasks(){
+    @Get()
+    getAllTasks(@Query() query:any){
         return this.tasksService.getTasks();
     }
 
+
+    @Get('/:id')
+    getAllTask(){
+        return this.tasksService.getTask(2);
+    }
+ 
+ 
+
     @Post('/tasks')
-    createTasks(){
-      return 'creando tareas'
+    createTasks(@Body() task:any){
+      return this.tasksService.createTask(task);
         // return this.tasksService.getTasks();
     }
 
@@ -23,12 +31,12 @@ export class TaskController{
         // return this.tasksService.getTasks();
     }
 
-    @Delete('/task')
+    @Delete('/tasks')
     deleteTask(){
         return 'eliminando tarea'
     }
 
-    @Patch('/task')
+    @Patch('/tasks')
     patchTask(){
         return 'update time task'
     }
